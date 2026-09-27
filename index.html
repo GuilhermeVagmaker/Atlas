@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="assets/imagens/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="topbar-inner">
+                <a class="logo" href="#inicio" aria-label="BB Papelaria, visão geral">
+                    <img src="assets/imagens/favicon-32x32.png" alt="">
+                </a>
+                <nav id="tabs" aria-label="Navegação principal">
+                    <button data-tab="inicio" class="active"><span class="nav-symbol">00</span> Visão geral</button>
+                    <button data-tab="drivers"><span class="nav-symbol">01</span> Impressoras</button>
+                    <button data-tab="art"><span class="nav-symbol">02</span> Modelos e ART</button>
+                    <button data-tab="precos"><span class="nav-symbol">03</span> Preços</button>
+                    <button data-tab="links"><span class="nav-symbol">04</span> Links úteis</button>
+                    <button data-tab="notinha"><span class="nav-symbol">05</span> Notinha</button>
+                </nav>
+                <div class="header-tools">
+                    <div class="global-search">
+                        <label for="quick-search">Buscar</label>
+                        <input id="quick-search" type="search" placeholder="Arquivo ou serviço" autocomplete="off">
+                        <div id="search-results" class="search-results" aria-live="polite" hidden></div>
+                    </div>
+                    <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-label="Abrir menu"
+                        aria-expanded="false" aria-controls="tabs">
+                        <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+                    </button>
+                    <button id="theme-toggle" title="Alternar tema" aria-label="Alternar tema">◐</button>
+                </div>
+            </div>
+        </header>
+        <div class="app-content">
+            <main>
+                <section id="inicio" class="active">
+                    <div class="page-heading">
+                        <div><span class="section-kicker">USO INTERNO</span>
+                            <h1>Visão geral</h1>
+                            <p>Ferramentas, arquivos e referências da sua rotina.</p>
+                        </div>
+                    </div>
+                    <div class="overview-label"><span>ACESSO RÁPIDO</span></div>
+                    <div class="quick-grid">
+                        <button class="quick-card" data-open-tab="drivers"><span class="quick-number">01</span><span
+                                class="quick-card-copy"><small>IMPRESSÃO</small><strong>Drivers de
+                                    impressora</strong><span>Arquivos de instalação</span></span><b
+                                data-count="drivers">03</b><span class="quick-arrow">→</span></button>
+                        <button class="quick-card" data-open-tab="art"><span class="quick-number">02</span><span
+                                class="quick-card-copy"><small>CRIAÇÃO</small><strong>Modelos e
+                                    ART</strong><span>Documentos prontos</span></span><b data-count="docs">04</b><span
+                                class="quick-arrow">→</span></button>
+                        <button class="quick-card" data-open-tab="precos"><span class="quick-number">03</span><span
+                                class="quick-card-copy"><small>BALCÃO</small><strong>Tabela de
+                                    preços</strong><span>Valores de referência</span></span><b
+                                data-count="prices">05</b><span class="quick-arrow">→</span></button>
+                        <button class="quick-card" data-open-tab="links"><span class="quick-number">04</span><span
+                                class="quick-card-copy"><small>ATALHOS</small><strong>Links úteis</strong><span>Sistemas
+                                    e arquivos</span></span><b data-count="links">03</b><span
+                                class="quick-arrow">→</span></button>
+                    </div>
+                </section>
+
+                <section id="drivers">
+                    <div class="section-heading">
+                        <div><span class="section-kicker">01 / IMPRESSÃO</span>
+                            <h2>Impressoras e drivers</h2>
+                        </div>
+                        <span class="item-count"><b data-count="printers">00</b> impressoras</span>
+                    </div>
+                    <p class="desc">Drivers separados dos equipamentos instalados e seus endereços IP.</p>
+                    <div class="printer-sections">
+                        <div class="printer-section" aria-labelledby="driver-list-heading">
+                            <h3 id="driver-list-heading">Drivers</h3>
+                            <div id="drivers-list" class="printer-static-list"></div>
+                        </div>
+                        <div class="printer-section" aria-labelledby="installed-printers-heading">
+                            <h3 id="installed-printers-heading">Impressoras atuais na empresa</h3>
+                            <div id="printer-list" class="printer-static-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="art">
+                    <div class="section-heading">
+                        <div><span class="section-kicker">02 / CRIAÇÃO</span>
+                            <h2>ART e modelos</h2>
+                        </div><span class="item-count"><b data-count="docs">04</b> modelos</span>
+                    </div>
+                    <p class="desc">Modelos em Word prontos para uso. Clique na miniatura para ver antes de baixar.</p>
+                    <div class="doc-grid" id="doc-grid"></div>
+                </section>
+
+                <section id="precos">
+                    <div class="section-heading">
+                        <div><span class="section-kicker">03 / BALCÃO</span>
+                            <h2>Preços de papéis</h2>
+                        </div><span class="item-count"><b data-count="prices">00</b> materiais</span>
+                    </div>
+                    <p class="desc">Preço fixo por folha. Itens sem valor informado aparecem como pendentes.</p>
+                    <div class="value-tables">
+                        <div class="printer-sections">
+                            <div class="printer-section">
+                                <h3>Impressões · P&amp;B A4</h3>
+                                <table id="tier-pb-a4"></table>
+                            </div>
+                            <div class="printer-section">
+                                <h3>Impressões · Colorido A4</h3>
+                                <table id="tier-color-a4"></table>
+                            </div>
+                        </div>
+                        <div class="printer-sections">
+                            <div class="printer-section">
+                                <h3>Impressões · P&amp;B A3</h3>
+                                <table id="tier-pb-a3"></table>
+                            </div>
+                            <div class="printer-section">
+                                <h3>Impressões · Colorido A3</h3>
+                                <table id="tier-color-a3"></table>
+                            </div>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Tipo de papel</h3>
+                            <table id="paper-grid-table"></table>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Formato grande</h3>
+                            <table id="large-format-table"></table>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Serviço Gov</h3>
+                            <table id="service-gov-table"></table>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Arte</h3>
+                            <table id="service-arte-table"></table>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Digitação</h3>
+                            <table id="service-digitacao-table"></table>
+                        </div>
+                        <div class="printer-section">
+                            <h3>Outros serviços</h3>
+                            <table id="service-outros-table"></table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="links">
+                    <div class="section-heading">
+                        <div><span class="section-kicker">04 / ATALHOS</span>
+                            <h2>Links úteis</h2>
+                        </div><span class="item-count"><b data-count="links">03</b> destinos</span>
+                    </div>
+                    <p class="desc">Links agrupados por assunto. Edite os nomes e endereços no bloco de dados do script.
+                    </p>
+                    <div id="links-list" class="link-groups"></div>
+                </section>
+
+                <section id="notinha">
+                    <div class="section-heading">
+                        <div><span class="section-kicker">05 / CONTROLE</span>
+                            <h2>Notinha</h2>
+                        </div>
+                        <span class="item-count"><b data-count="note">00</b> itens</span>
+                    </div>
+                    <p class="desc">Informe as quantidades, o valor do serviço e as folhas extras usadas.</p>
+                    <div class="note-receipt">
+                        <div class="receipt-header">
+                            <div><span>BB PAPELARIA · USO INTERNO</span><strong>NOTINHA</strong></div>
+                            <time id="note-date"></time>
+                        </div>
+                        <div class="receipt-print-heading"><strong>Impressões</strong><span>Qtd. · unitário ·
+                                subtotal</span></div>
+                        <div id="note-print-lines" class="receipt-print-lines"></div>
+                        <div class="receipt-service">
+                            <label>Serviço
+                                <input id="note-service-price" type="number" min="0" step="0.01" placeholder="0,00">
+                            </label>
+                        </div>
+                        <div class="receipt-paper-heading">
+                            <strong>Folhas utilizadas</strong>
+                            <button id="note-add-paper" type="button">+ Adicionar folha</button>
+                        </div>
+                        <div id="note-paper-lines" class="receipt-paper-lines"></div>
+                        <p id="note-pending-warning" class="note-pending-warning" hidden>Há formatos sem preço
+                            cadastrado; eles não entram no total.</p>
+                        <div class="receipt-bottom">
+                            <button id="note-clear" type="button">Limpar nota</button>
+                            <div class="receipt-total"><span>TOTAL</span><strong id="note-total">R$ 0,00</strong></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="preview-overlay">
+        <div id="preview-box">
+            <div id="preview-img"></div>
+            <div id="preview-info">
+                <strong id="preview-name"></strong>
+                <span id="preview-meta"></span>
+                <div class="row2">
+                    <a class="btn" id="preview-download" href="#">Baixar</a>
+                    <button class="btn" id="preview-close">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="zoom-overlay">
+        <img id="zoom-img" src="" alt="">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
