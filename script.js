@@ -674,11 +674,47 @@
     var tabButtons = document.querySelectorAll('#tabs button');
     var topbar = document.querySelector('.topbar');
     var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    var mobileMenuNav = document.getElementById('tabs');
+    var mobileMenuAnimation = null;
 
     function setMobileMenuOpen(isOpen) {
-        topbar.classList.toggle('menu-open', isOpen);
+        var wasOpen = topbar.classList.contains('menu-open');
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var shouldAnimate = window.matchMedia('(max-width: 600px)').matches && !prefersReducedMotion && mobileMenuNav.animate;
+        if (mobileMenuAnimation) {
+            mobileMenuAnimation.cancel();
+            mobileMenuAnimation = null;
+        }
         mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
         mobileMenuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+
+        if (shouldAnimate && isOpen) {
+            topbar.classList.add('menu-open');
+            mobileMenuAnimation = mobileMenuNav.animate([
+                { opacity: 0, transform: 'translateY(-8px)' },
+                { opacity: 1, transform: 'translateY(0)' }
+            ], { duration: 180, easing: 'ease-out' });
+            mobileMenuAnimation.onfinish = function () {
+                mobileMenuAnimation.cancel();
+                mobileMenuAnimation = null;
+            };
+            return;
+        }
+
+        if (shouldAnimate && wasOpen && !isOpen) {
+            mobileMenuAnimation = mobileMenuNav.animate([
+                { opacity: 1, transform: 'translateY(0)' },
+                { opacity: 0, transform: 'translateY(-8px)' }
+            ], { duration: 160, easing: 'ease-in' });
+            mobileMenuAnimation.onfinish = function () {
+                topbar.classList.remove('menu-open');
+                mobileMenuAnimation.cancel();
+                mobileMenuAnimation = null;
+            };
+            return;
+        }
+
+        topbar.classList.toggle('menu-open', isOpen);
     }
 
     mobileMenuToggle.addEventListener('click', function () {

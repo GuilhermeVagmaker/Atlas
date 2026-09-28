@@ -1481,6 +1481,10 @@ input:focus-visible {
         padding-top: 8px;
     }
 
+    .topbar:not(.menu-open) .topbar-inner {
+        padding-bottom: 8px;
+    }
+
     .topbar.menu-open .topbar-inner {
         row-gap: 12px;
         padding-bottom: 12px;
@@ -1492,12 +1496,13 @@ input:focus-visible {
     }
 
     nav#tabs {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        display: flex;
+        flex-direction: column;
         grid-column: 1 / -1;
         grid-row: 2;
-        gap: 2px;
+        gap: 6px;
         margin: 0;
+        padding: 0 6px 6px;
         overflow: visible;
     }
 
@@ -1542,13 +1547,13 @@ input:focus-visible {
         width: 100%;
         min-width: 0;
         min-height: 48px;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0;
-        padding: 7px 5px;
+        padding: 10px 14px;
         border: 1px solid var(--line);
         border-radius: 4px;
         background: var(--surface);
-        text-align: center;
+        text-align: left;
         white-space: normal;
         font-size: .68rem;
     }
