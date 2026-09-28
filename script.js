@@ -376,6 +376,42 @@
     renderServiceTable('service-digitacao-table', content.serviceGroups.digitacao);
     renderServiceTable('service-outros-table', content.serviceGroups.outros);
 
+    document.querySelectorAll('.price-group').forEach(function (group) {
+        var summary = group.querySelector('summary');
+        var panel = group.querySelector('.price-group-content');
+        summary.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (group.dataset.animating === 'true') return;
+
+            var duration = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 220;
+            if (!duration) {
+                group.open = !group.open;
+                return;
+            }
+
+            group.dataset.animating = 'true';
+            if (group.open) {
+                var closeAnimation = panel.animate([
+                    { height: panel.scrollHeight + 'px', opacity: 1 },
+                    { height: '0px', opacity: 0 }
+                ], { duration: duration, easing: 'ease' });
+                closeAnimation.onfinish = function () {
+                    group.open = false;
+                    delete group.dataset.animating;
+                };
+            } else {
+                group.open = true;
+                var openAnimation = panel.animate([
+                    { height: '0px', opacity: 0 },
+                    { height: panel.scrollHeight + 'px', opacity: 1 }
+                ], { duration: duration, easing: 'ease' });
+                openAnimation.onfinish = function () {
+                    delete group.dataset.animating;
+                };
+            }
+        });
+    });
+
     var grid = document.getElementById('doc-grid');
     grid.innerHTML = content.docs.map(function (d, i) {
         var inner = d.thumb ? '<img src="' + d.thumb + '" alt="">' : d.tipo.replace('.', '').toUpperCase();
@@ -735,7 +771,9 @@
 
         if (kind === 'table') {
             var table = document.getElementById(parts[1]);
-            el = table ? table.closest('.printer-section') || table : null;
+            var priceGroup = table ? table.closest('.price-group') : null;
+            if (priceGroup) { priceGroup.open = true; }
+            el = priceGroup || (table ? table.closest('.printer-section') || table : null);
         } else if (kind === 'link') {
             var groupDetails = document.querySelector('[data-search-group="' + parts[1] + '"]');
             if (groupDetails) { groupDetails.open = true; }
