@@ -463,6 +463,7 @@
             var amount = line.querySelector('.print-line-amount');
             var subtotal = line.querySelector('.print-line-subtotal');
             var unitPrice = paper ? getUnitPrice(paper, quantity) : null;
+            line.classList.toggle('has-quantity', quantity > 0);
 
             amount.textContent = quantity > 0 ? (unitPrice === null ? 'A definir' : moneyFormat.format(unitPrice)) :
                 paper && paper.tiers ? 'por faixa' : paper && paper.valor !== null ? moneyFormat.format(paper.valor) : 'A definir';
@@ -487,6 +488,8 @@
             var subtotal = unitPrice === null ? 0 : unitPrice * Number(line.quantity);
             if (paper && unitPrice !== null) { selectedCount++; total += subtotal; }
             else if (paper && Number(line.quantity) > 0) { hasPendingPrice = true; }
+            var paperRow = paperLines.querySelector('[data-line-index="' + index + '"]');
+            if (paperRow) { paperRow.classList.toggle('has-paper', Boolean(paper)); }
             var subtotalElement = paperLines.querySelector('[data-line-index="' + index + '"] .paper-subtotal');
             if (subtotalElement) { subtotalElement.textContent = !paper ? '' : unitPrice !== null ? moneyFormat.format(subtotal) : 'A definir'; }
         });
@@ -562,6 +565,7 @@
         noteState.papers.forEach(function (line, index) {
             var row = document.createElement('div');
             row.className = 'paper-line';
+            row.classList.toggle('has-paper', Boolean(line.paperId));
             row.dataset.lineIndex = index;
 
             var paperLabel = document.createElement('label');
@@ -639,6 +643,9 @@
         saveNote();
         renderPrintLines();
         renderPaperLines();
+    });
+    document.getElementById('note-print').addEventListener('click', function () {
+        window.print();
     });
     renderPrintLines();
     renderPaperLines();
